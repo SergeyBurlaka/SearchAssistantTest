@@ -1,26 +1,34 @@
-package com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data;
+package com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.loaders;
 
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
+
+import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.SearchItemRepository;
+import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.pojo.SearchItem;
+import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.di.SearchApp;
+
+import javax.inject.Inject;
 
 /**
  * Created by Operator on 28.02.2017.
  */
 public class GetFavoriteLoader extends  AsyncTaskLoader<SearchItem>
-    implements DataRepository.TasksRepositoryObserver{
+    implements SearchItemRepository.TasksRepositoryObserver {
 
-    private final SearchItem searchItem;
+    @Inject
+    SearchItemRepository dataRepository;
 
-    private DataRepository mRepository;
+    private final Long idSearchItem;
 
-    public GetFavoriteLoader(SearchItem searchItem, Context context) {
+    public GetFavoriteLoader(Long idSearchItem, Context context) {
         super(context);
-        this.searchItem = searchItem;
+        SearchApp.getComponent().inject(this);
+        this.idSearchItem = idSearchItem;
     }
 
     @Override
     public SearchItem loadInBackground() {
-        return mRepository.getFavoriteSearch();
+        return dataRepository.getFavoriteSearch(idSearchItem);
     }
 
     @Override
@@ -36,25 +44,15 @@ public class GetFavoriteLoader extends  AsyncTaskLoader<SearchItem>
 
         @Override
         protected void onStartLoading() {
-            // Deliver any previously loaded data immediately if available.
-            if (mRepository.cachedSearchItems()) {
-                deliverResult(mRepository.getCachedSearchItem());
-            }
-
             // Begin monitoring the underlying data source.
-            mRepository.addContentObserver(this);
-
-            if (takeContentChanged() || !mRepository.cachedSearchItems()) {
-                // When a change has  been delivered or the repository cache isn't available, we force
-                // a load.
+            dataRepository.addContentObserver(this);
                 forceLoad();
-            }
         }
 
         @Override
         protected void onReset() {
             onStopLoading();
-            mRepository.removeContentObserver(this);
+            dataRepository.removeContentObserver(this);
         }
 
         @Override

@@ -11,9 +11,10 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.R;
-import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.SearchItem;
+import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.pojo.SearchItem;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -76,7 +77,7 @@ public class SearchFragment extends MvpAppCompatFragment implements SearchView{
     private void onCreateSearchResult() {
         ArrayList<SearchItem> searchItems = new ArrayList<>();
         for (int i = 0; i<100;i++){
-            searchItems.add(new SearchItem("number "+i, ""));
+            searchItems.add(new SearchItem((long)i,"number "+i, "", false, new Date()));
         }
         searchResultAdapter = new SearchResultAdapter(searchItems, mItemListener);
 

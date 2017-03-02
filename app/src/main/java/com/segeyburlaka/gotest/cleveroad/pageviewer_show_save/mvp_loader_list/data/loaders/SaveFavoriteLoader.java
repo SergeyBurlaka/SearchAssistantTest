@@ -1,10 +1,12 @@
-package com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data;
+package com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.loaders;
 
 import android.content.Context;
-import android.os.Handler;
 import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
+import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.SearchItemRepository;
+
+import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.pojo.SearchItem;
 import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.di.SearchApp;
 
 import javax.inject.Inject;
@@ -13,11 +15,11 @@ import javax.inject.Inject;
  * Created by Operator on 01.03.2017.
  */
 
-public class SaveFavoriteLoader extends AsyncTaskLoader<String>
-        implements DataRepository.TasksRepositoryObserver{
+public class SaveFavoriteLoader extends AsyncTaskLoader<Long>
+        implements SearchItemRepository.TasksRepositoryObserver {
 
     @Inject
-    DataRepository dataRepository;
+    SearchItemRepository dataRepository;
 
     private final SearchItem searchItem;
     private String TAG = "goCR";
@@ -29,15 +31,18 @@ public class SaveFavoriteLoader extends AsyncTaskLoader<String>
     }
 
     @Override
-    public String loadInBackground() {
-       // Log.d(TAG, "loadInBackground()");
-       // return mRepository.saveFavoriteSearch(searchItem);
-        return "NEO";
+    public Long loadInBackground() {
+
+        Log.d(TAG, "loadInBackground()");
+        dataRepository.saveFavorite(searchItem);
+
+        return searchItem.getId();
     }
 
     @Override
     protected void onStartLoading() {
-            forceLoad();
+
+        forceLoad();
     }
 
     @Override

@@ -11,17 +11,21 @@ import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.R;
-import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.AddFavoriteEvent;
-import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.SearchItem;
+import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.pojo.AddFavoriteEvent;
+import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.pojo.SearchItem;
 import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.search.SearchFragment;
+import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.search.SearchPresenter;
 import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.search.SearchResultAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,10 +75,20 @@ public class FavoriteFragment extends MvpAppCompatFragment implements FavoriteVi
         return view;
     }
 
+    @ProvidePresenter
+    FavoritePresenter provideFavoritePresenter() {
+        return new FavoritePresenter (getLoaderManager());
+    }
+
     private void onCreateSearchResult() {
         ArrayList<SearchItem> searchItems = new ArrayList<>();
         for (int i = 0; i<2;i++){
-            searchItems.add(new SearchItem("number "+i, ""));
+
+            final DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
+            String comment = "Added on " + df.format(new Date());
+
+
+            searchItems.add(new SearchItem(i,"number "+i, "", false, new Date()));
         }
         searchResultAdapter = new SearchResultAdapter(searchItems,mItemListener );
 
@@ -104,6 +118,12 @@ public class FavoriteFragment extends MvpAppCompatFragment implements FavoriteVi
         Toast.makeText(getActivity(), onResult, Toast.LENGTH_SHORT).show();
     }
 
+
+    @Override
+    public void swapAdapter(SearchItem data) {
+        searchResultAdapter.swap(data);
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -120,6 +140,10 @@ public class FavoriteFragment extends MvpAppCompatFragment implements FavoriteVi
     public void onEvent(AddFavoriteEvent event) {
         i++;
         Log.d(TAG, "onMessageEvent"+i);
-        showToast("OnResult");
+       // showToast("OnResult");
+
+        favoritePresenter.getNewFavorite(event.getIdSearchItem());
+        //todo 44min/3:40 -----------------turn loader get DAta and show in toast
+
     };
 }

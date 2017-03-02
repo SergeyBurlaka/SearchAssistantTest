@@ -10,7 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.R;
-import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.SearchItem;
+import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.pojo.SearchItem;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -59,11 +61,24 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
                 public void onClick(View v) {
                     CheckBox cb = (CheckBox) v;
                     searchItem.setLiked(cb.isChecked());
-                    mItemListener.onFavoriteCheck(searchItem);
+
+                    if(cb.isChecked()){
+                    //With the aim of rid of links from List
+                    mItemListener.onFavoriteCheck(new SearchItem(searchItem));
+                    }
                 }
             });
         }
     }
+
+    public void swap(SearchItem data){
+        //data.clear();
+        if(searchItemList.contains(data)) return;
+        searchItemList.add(data);
+        notifyDataSetChanged();
+    }
+
+
 
     @Override
     public SearchViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {

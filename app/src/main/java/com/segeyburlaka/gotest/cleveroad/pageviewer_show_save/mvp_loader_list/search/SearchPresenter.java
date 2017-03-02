@@ -2,15 +2,17 @@ package com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.s
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.BasePresenter;
-import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.AddFavoriteEvent;
-import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.SaveFavoriteLoader;
-import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.SearchItem;
+import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.pojo.AddFavoriteEvent;
+import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.loaders.SaveFavoriteLoader;
+import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.pojo.SearchItem;
 import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.di.SearchApp;
 
 import org.greenrobot.eventbus.EventBus;
@@ -23,7 +25,7 @@ import javax.inject.Inject;
 
 @InjectViewState
 public class SearchPresenter extends BasePresenter<SearchView> implements
-        LoaderManager.LoaderCallbacks<String> {
+        LoaderManager.LoaderCallbacks<Long> {
 
     @Inject
     Context context;
@@ -40,15 +42,15 @@ public class SearchPresenter extends BasePresenter<SearchView> implements
         SearchApp.getComponent().inject(this);
     }
 
-    public void start(@NonNull LoaderManager loaderManager) {
+    /*public void start(@NonNull LoaderManager loaderManager) {
         mLoaderManager = loaderManager;
-        tasksLoader = new SaveFavoriteLoader( new SearchItem("",""),context );
+        tasksLoader = new SaveFavoriteLoader(new SearchItem(1l,"",""),context );
         mLoaderManager.initLoader(TASKS_QUERY, null, this);
-    }
+    }*/
 
     //send notification with eventbus to other presenter
-    public void sendNotify (){
-        EventBus.getDefault().post(new AddFavoriteEvent());
+    public void sendNotify (Long id){
+        EventBus.getDefault().post(new AddFavoriteEvent(id));
     }
 
     public String getName() {
@@ -60,32 +62,38 @@ public class SearchPresenter extends BasePresenter<SearchView> implements
     }
 
     @Override
-    public Loader<String> onCreateLoader(int id, Bundle args) {
+    public Loader<Long> onCreateLoader(int id, Bundle args) {
+        Log.d(TAG, "onCreateLoader ");
         return tasksLoader;
     }
 
     @Override
-    public void onLoadFinished(Loader<String> loader, String data) {
-       // Log.d(TAG, "onLoadFinished");
-        // This solution will leak memory!  Don't use!!!
+    public void onLoadFinished(final Loader<Long> loader, final Long idSearcItem) {
+        // Log.d(TAG, "onLoadFinished");
+        sendNotify(idSearcItem);
         /*Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 Log.d(TAG, "send notify--->");
-                sendNotify();
+                sendNotify(idSearcItem);
             }
         }, 2000);*/
     }
 
+
     @Override
-    public void onLoaderReset(Loader<String> loader) {
+    public void onLoaderReset(Loader<Long> loader) {
 
     }
 
     public void saveToFavorite(SearchItem searchItem) {
+        Log.d(TAG, "saveToFavorite "+searchItem.getId());
+
         tasksLoader = new SaveFavoriteLoader( searchItem, context);
-        mLoaderManager.initLoader(TASKS_QUERY, null, this);
+
+
+        mLoaderManager.initLoader((int)searchItem.getId(), null, this);
     }
 
     public void removeFromFavorite(SearchItem searchItem) {
