@@ -1,17 +1,14 @@
 package com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.viewpages.search;
 
-import android.Manifest;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -28,23 +25,14 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import pub.devrel.easypermissions.AfterPermissionGranted;
-import pub.devrel.easypermissions.EasyPermissions;
 
 import static com.arlib.floatingsearchview.util.Util.dpToPx;
 
 //Our class extending fragment
 public class SearchFragment extends MvpAppCompatFragment implements SearchView{
-
-    private static final String TAG = "goCR";
-    private int pastVisibleItems, visibleItemCount, totalItemCount;
-    private boolean loading = false;
-
-    private String currentQuery  = "";
 
     //Moxy usage for MVP
     @InjectPresenter
@@ -56,10 +44,11 @@ public class SearchFragment extends MvpAppCompatFragment implements SearchView{
     @BindView(R.id.search_recyclerview)
     RecyclerView searchResultList;
 
+    private int pastVisibleItems, visibleItemCount, totalItemCount;
+    private boolean loading = false;
+    private String currentQuery  = "";
     public static final String ARG_PAGE = "ARG_PAGE";
     private int mPage;
-
-
 
     @ProvidePresenter
     SearchPresenter provideSearchPresenter() {
@@ -86,18 +75,10 @@ public class SearchFragment extends MvpAppCompatFragment implements SearchView{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
-
         mPage = getArguments().getInt(ARG_PAGE);
-
     }
 
-
-
-
     private void onGoogleSearch (@NonNull String query){
-
-        Log.d(TAG, " onGoogleSearch "+ searchResultAdapter.getItemCount());
-
         googleCustomsearchPresenter.getGoogleSearch(query, searchResultAdapter.getItemCount() + 1);
     }
 
@@ -113,19 +94,9 @@ public class SearchFragment extends MvpAppCompatFragment implements SearchView{
         return view;
     }
 
-    //todo set adapter result here
     private void onCreateSearchResult() {
-
-        Random r = new Random();
-
-
         ArrayList<SearchItem> searchItems = new ArrayList<>();
-       /* for (int i = 0; i<100;i++){
-            long number = lowerLimit+((long)(r.nextDouble()*(upperLimit-lowerLimit)));
-            searchItems.add(new SearchItem(number,"number "+i, "", false, new Date()));
-        }*/
         searchResultAdapter = new SearchResultAdapter(searchItems, mItemListener);
-
         //init recycler view list
         searchResultList.setHasFixedSize(true);
 
@@ -133,52 +104,31 @@ public class SearchFragment extends MvpAppCompatFragment implements SearchView{
         searchResultList.setLayoutManager(mLayoutManager);
         searchResultList.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         searchResultList.setItemAnimator(new DefaultItemAnimator());
-
         searchResultList.setAdapter(searchResultAdapter);
-
 
         //loading = false;
         searchResultList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-
                 if (dy > 0) {
-                  //  Log.d(TAG, " addOnScrollListener "+ dy );
-
                         visibleItemCount = mLayoutManager.getChildCount();
                         totalItemCount = mLayoutManager.getItemCount();
-
                         pastVisibleItems = mLayoutManager.findFirstVisibleItemPosition();
 
                     if (!loading) {
-
-                       // Log.d(TAG, " addOnScrollListener___ "+ "summa = "+(visibleItemCount + pastVisibleItems)+" total " +totalItemCount);
-
                         if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
-
-
-
                             loading = true;
-                            Toast.makeText(getActivity(), "get new", Toast.LENGTH_SHORT).show();
-
                             onGoogleSearch (currentQuery);
-
-                           // runAsyncTask(eText.getText().toString(), mGObjectAdapter.getItemCount() + 1);
                         }
                     }
                 }
             }
         });
-
-
-
     }
 
     /**
      * Listener for clicks on tasks in the ListView.
      */
-
-
     SearchItemListener mItemListener = new SearchItemListener() {
         
         @Override
@@ -193,20 +143,12 @@ public class SearchFragment extends MvpAppCompatFragment implements SearchView{
     };
 
     @Override
-    public void showToast() {
-        Toast.makeText(getActivity(), "loader", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
     public void swapGoogleResult(List<SearchItem> searchResults) {
         loading = false;
         searchResultAdapter.swapOnGoogleResult(searchResults);
     }
 
-
-
     public interface SearchItemListener {
-
         void onFavoriteCheck(SearchItem clickedTask);
 
         void onFavoriteUnCheck (SearchItem clickedTask);
@@ -229,8 +171,6 @@ public class SearchFragment extends MvpAppCompatFragment implements SearchView{
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(OnSearchEvent event) {
         this.currentQuery = event.getQuery();
-        Log.d(TAG,"onEvent(OnSearchEvent event)" );
-
         searchResultAdapter.clear ();
         onGoogleSearch (event.getQuery());
     };

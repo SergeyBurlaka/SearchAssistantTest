@@ -55,10 +55,8 @@ public interface AppComponent {
     void inject(FavoriteLocalSource favoriteLocalSource);
     void inject (GoogleSearchSource searchItemRemoteSource);
 
-    //SearchResultAdapter
     void inject (SearchResultAdapter.SearchListViewHolder searchViewHolder);
     void inject (GridSpacingItemDecoration gridSpacingItemDecoration);
 
-    // CashImageTask
     void inject (CashImageTask cashImageTask);
 }

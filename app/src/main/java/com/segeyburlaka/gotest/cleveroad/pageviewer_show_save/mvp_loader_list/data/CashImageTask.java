@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.util.Log;
 
 import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.di.SearchApp;
 
@@ -28,10 +27,10 @@ public class CashImageTask extends AsyncTask<Void, Void, Void> {
 
     @Inject
     Context context;
+
     private String root;
 
     private ImageCashListener imageCashListener;
-
 
     public CashImageTask(String root ,ImageCashListener imageCashListener){
       this.imageCashListener = imageCashListener;
@@ -49,9 +48,7 @@ public class CashImageTask extends AsyncTask<Void, Void, Void> {
        saveImage( download_Image(imageLink));
     }
 
-
     private Bitmap download_Image(String url) {
-        //---------------------------------------------------
         Bitmap bm = null;
         try {
             URL aURL = new URL(url);
@@ -63,10 +60,8 @@ public class CashImageTask extends AsyncTask<Void, Void, Void> {
             bis.close();
             is.close();
         } catch (IOException e) {
-            Log.e("Hub","Error getting the image from server : " + e.getMessage().toString());
         }
         return bm;
-        //---------------------------------------------------
     }
 
     private void saveImage(Bitmap finalBitmap) {
@@ -91,9 +86,6 @@ public class CashImageTask extends AsyncTask<Void, Void, Void> {
             e.printStackTrace();
             return;
         }
-
         imageCashListener.onCashedImage(file.getAbsolutePath());
-
     }
-
 }

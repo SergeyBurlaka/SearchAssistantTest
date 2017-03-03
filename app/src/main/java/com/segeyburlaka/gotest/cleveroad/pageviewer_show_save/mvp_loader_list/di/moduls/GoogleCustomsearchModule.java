@@ -16,12 +16,9 @@ import dagger.Provides;
 @Module
 public class GoogleCustomsearchModule {
 
-    private static final String SEARCH = "Search";
-
     @Provides
     @Singleton
     public  Customsearch.Builder provideCustomsearch (){
         return new Customsearch.Builder(new NetHttpTransport(), new JacksonFactory(), null);
     }
-
 }

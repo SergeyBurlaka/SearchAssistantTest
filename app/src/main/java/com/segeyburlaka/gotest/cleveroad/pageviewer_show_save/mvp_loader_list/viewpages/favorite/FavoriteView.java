@@ -10,7 +10,6 @@ import java.util.List;
  */
 
 public interface FavoriteView extends MvpView {
-    void showToast(String onResult);
 
     void swapAdapter(SearchItem data);
 

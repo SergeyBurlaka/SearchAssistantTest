@@ -1,6 +1,5 @@
 package com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.viewpages.search;
 
-import android.Manifest;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,15 +16,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import pub.devrel.easypermissions.EasyPermissions;
 
 /**
  * Created by Operator on 02.03.2017.
  */
-
 @InjectViewState
-public class GoogleCustomsearchPresenter extends BasePresenter<SearchView> implements
-        LoaderManager.LoaderCallbacks<List<SearchItem>>{
+public class GoogleCustomsearchPresenter extends BasePresenter<SearchView> implements LoaderManager.LoaderCallbacks<List<SearchItem>>{
 
     private static final int TASKS_QUERY = 1;
     @Inject
@@ -34,29 +30,17 @@ public class GoogleCustomsearchPresenter extends BasePresenter<SearchView> imple
     private LoaderManager mLoaderManager;
     private QueryGoogleLoader queryGoogleLoader;
 
-    private String TAG = "goCR";
-    private String name ="";
-    // private  static int TASKS_QUERY = 1;
-
-
-
-
     public GoogleCustomsearchPresenter(@NonNull LoaderManager loaderManager){
         this.mLoaderManager = loaderManager;
         SearchApp.getComponent().inject(this);
     }
 
-
-
     public void getGoogleSearch(@NonNull String query,  int firstItemID) {
-
         queryGoogleLoader = new QueryGoogleLoader( query,firstItemID, context);
-
         Loader<SearchView>  loader = mLoaderManager.getLoader(TASKS_QUERY);
 
         if(loader!=null){
             mLoaderManager.restartLoader(TASKS_QUERY, null, this);
-            getViewState().showToast();
         } else{
             mLoaderManager.initLoader(TASKS_QUERY, null, this);
         }
@@ -70,9 +54,6 @@ public class GoogleCustomsearchPresenter extends BasePresenter<SearchView> imple
 
     @Override
     public void onLoadFinished(Loader<List<SearchItem>> loader, List<SearchItem> data) {
-        /*for(SearchItem searchItem: data){
-        Log.d(TAG,"onGoogleFinish "+ searchItem.getTitle() +"%%% %%");
-        }*/
         getViewState().swapGoogleResult(data);
     }
 
@@ -80,6 +61,4 @@ public class GoogleCustomsearchPresenter extends BasePresenter<SearchView> imple
     public void onLoaderReset(Loader<List<SearchItem>> loader) {
 
     }
-
-
 }

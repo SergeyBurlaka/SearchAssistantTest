@@ -2,8 +2,6 @@ package com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.d
 
 import android.support.annotation.NonNull;
 
-import org.greenrobot.greendao.annotation.NotNull;
-
 import java.util.List;
 
 /**

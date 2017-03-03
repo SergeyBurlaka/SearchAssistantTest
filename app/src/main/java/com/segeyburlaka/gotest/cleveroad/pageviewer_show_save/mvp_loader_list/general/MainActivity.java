@@ -22,8 +22,6 @@ import java.util.List;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-//Implementing the interface OnTabSelectedListener to our MainActivity
-//This interface would help in swiping views
 public class MainActivity extends  AppCompatActivity implements SearchView,EasyPermissions.PermissionCallbacks {
 
     private FloatingSearchView mSearchView;
@@ -38,28 +36,22 @@ public class MainActivity extends  AppCompatActivity implements SearchView,EasyP
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Adding toolbar to the activity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mSearchView = (FloatingSearchView) findViewById(R.id.floating_search_view);
 
-        // Get the ViewPager and set it's PagerAdapter so that it can display items
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
 
-        // Give the TabLayout the ViewPager
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
 
         setupFloatingSearch();
-
         onPermissions();
-
     }
 
     @AfterPermissionGranted(RC_WRITE_EXTERNAL_STORAGE)
     private void onPermissions() {
-        // Check for camera permissions
         if (!EasyPermissions.hasPermissions(this, write_permissions)) {
             EasyPermissions.requestPermissions(this,
                     "This sample will write and read you extnernal storage",
@@ -69,30 +61,22 @@ public class MainActivity extends  AppCompatActivity implements SearchView,EasyP
     }
 
     private void setupFloatingSearch() {
-
         mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
             @Override
             public void onSearchTextChanged(String oldQuery, final String newQuery) {
-
                 if (!oldQuery.equals("") && newQuery.equals("")) {
                     mSearchView.clearSuggestions();
-                } else {
-
-
                 }
-                //Log.d(TAG, "onSearchTextChanged()");
             }
         });
 
         mSearchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
             @Override
             public void onSuggestionClicked(final SearchSuggestion searchSuggestion) {
-              //  Log.d(TAG, "onSuggestionClicked()");
             }
 
             @Override
             public void onSearchAction(String query) {
-               // Log.d(TAG, "onSearchAction()");
                 EventBus.getDefault().post(new OnSearchEvent(query));
             }
         });
@@ -100,24 +84,12 @@ public class MainActivity extends  AppCompatActivity implements SearchView,EasyP
         mSearchView.setOnFocusChangeListener(new FloatingSearchView.OnFocusChangeListener() {
             @Override
             public void onFocus() {
-                //show suggestions when search bar gains focus (typically history suggestions)
-                // mSearchView.swapSuggestions(DataHelper.getHistory(getActivity(), 3));
-                //Log.d(TAG, "onFocus()");
             }
 
             @Override
             public void onFocusCleared() {
-                //set the title of the bar so that when focus is returned a new query begins
-                //you can also set setSearchText(...) to make keep the query there when not focused and when focus returns
-                //mSearchView.setSearchText(searchSuggestion.getBody());
-                //Log.d(TAG, "onFocusCleared()");
             }
         });
-
-    }
-
-    @Override
-    public void showToast() {
 
     }
 
@@ -129,7 +101,6 @@ public class MainActivity extends  AppCompatActivity implements SearchView,EasyP
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
         // Forward results to EasyPermissions
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
@@ -143,6 +114,4 @@ public class MainActivity extends  AppCompatActivity implements SearchView,EasyP
     public void onPermissionsDenied(int requestCode, List<String> perms) {
 
     }
-
-
 }

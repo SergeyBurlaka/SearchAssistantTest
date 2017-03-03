@@ -2,8 +2,6 @@ package com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.d
 
 import android.support.annotation.NonNull;
 
-import org.greenrobot.greendao.annotation.NotNull;
-
 import java.util.List;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -45,7 +43,7 @@ public  class DataRepository implements FavoriteLocalContract, GoogleSearchContr
         return mTasksRemoteSearchItemSource.getGoogleSearch(query, firstItemID);
     }
 
-    //todo realization Observer
+    //todo realizate Observer
     public void addContentObserver(DataRepository.TasksRepositoryObserver tasksRepositoryObserver) {
 
     }
@@ -53,7 +51,6 @@ public  class DataRepository implements FavoriteLocalContract, GoogleSearchContr
     public void removeContentObserver(DataRepository.TasksRepositoryObserver tasksRepositoryObserver) {
 
     }
-
 
     public interface TasksRepositoryObserver {
         void onTasksChanged();

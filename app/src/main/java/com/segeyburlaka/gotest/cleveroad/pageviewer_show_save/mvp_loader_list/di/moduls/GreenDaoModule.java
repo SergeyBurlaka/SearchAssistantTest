@@ -34,7 +34,6 @@ public class GreenDaoModule {
     @Provides
     @Singleton
     public DaoSession provideDaoSession (){
-
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(mContext, "notes-db");
         Database db = helper.getWritableDb();
         return new DaoMaster(db).newSession();
@@ -45,5 +44,4 @@ public class GreenDaoModule {
     public SearchItemDao provideSearchItemDao (DaoSession daoSession){
         return  daoSession.getSearchItemDao();
     }
-
 }

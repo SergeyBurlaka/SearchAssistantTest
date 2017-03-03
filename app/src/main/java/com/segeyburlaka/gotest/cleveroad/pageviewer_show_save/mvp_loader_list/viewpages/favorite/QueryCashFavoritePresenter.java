@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.SearchItem;
@@ -33,7 +32,6 @@ Context context;
 private final LoaderManager mLoaderManager;
 
 private QueryCashFavoriteLoader getItemCashLoader;
-private String TAG = "goCR";
 
     public QueryCashFavoritePresenter (@NonNull LoaderManager loaderManager){
         this.mLoaderManager = loaderManager;
@@ -60,6 +58,4 @@ private String TAG = "goCR";
     public void onLoaderReset(Loader<List<SearchItem>> loader) {
 
     }
-
-
 }

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,34 +28,20 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
-
 /**
  * Created by Operator on 28.02.2017.
  */
 
 public class SearchResultAdapter extends RecyclerView.Adapter {
 
-
     List<SearchItem> searchItemList;
-
-     final int VIEW_PROG = 0;
-     final int VIEW_IMG = 1;
-
+    final int VIEW_PROG = 0;
+    final int VIEW_IMG = 1;
     SearchFragment.SearchItemListener mItemListener;
 
     public SearchResultAdapter(List<SearchItem> searchItemList,  SearchFragment.SearchItemListener mItemListener){
-
         this.mItemListener = mItemListener;
         this.searchItemList = searchItemList;
-    }
-
-    public static class SearchViewHolder extends RecyclerView.ViewHolder {
-
-
-        public SearchViewHolder(View itemView) {
-            super(itemView);
-        }
     }
 
     public static class SearchListViewHolder extends RecyclerView.ViewHolder {
@@ -83,12 +68,9 @@ public class SearchResultAdapter extends RecyclerView.Adapter {
             super(itemView);
             SearchApp.getComponent().inject(this);
             ButterKnife.bind(this, itemView);
-
-
         }
 
         void setOnClickListener (final String URL){
-
            searchImg.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
@@ -98,9 +80,6 @@ public class SearchResultAdapter extends RecyclerView.Adapter {
                    context.startActivity(i);
                }
            });
-
-
-
        }
 
         private void setOnCheckBoxListener(
@@ -122,25 +101,22 @@ public class SearchResultAdapter extends RecyclerView.Adapter {
             });
         }
 
-
         void loadPhoto(String path) {
             try {
                 Picasso.with(context)
                         .load(path)
-                        //.resize(115, 100)
-                        //.centerCrop()
                         .placeholder(R.drawable.image_placeholder)
                         .error(R.drawable.image_placeholder)
                         .into(searchImg);
             }catch (IllegalArgumentException ex){
-                //WORKAROUND/Picasso loading exception: Path must not be empty...
-                //ok, so picasso try again!
-                Picasso.with(context)
-                        .load(R.drawable.image_placeholder)
-                        //.resize(115, 100)
-                       // .centerCrop()
-                        .into(searchImg);
+                onLoadImageExeption();
             }
+        }
+
+        void onLoadImageExeption() {
+            Picasso.with(context)
+                    .load(R.drawable.image_placeholder)
+                    .into(searchImg);
         }
     }
 
@@ -150,10 +126,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
-
-
     public void swapOnGoogleResult(List <SearchItem> data){
-       //searchItemList.clear();
         searchItemList.addAll(data);
         notifyDataSetChanged();
     }
@@ -165,41 +138,34 @@ public class SearchResultAdapter extends RecyclerView.Adapter {
 
     @Override
     public  RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-
         RecyclerView.ViewHolder vh;
 
         if (viewType == VIEW_IMG) {
-
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.serarch_result_item, viewGroup, false);
             vh = new SearchListViewHolder(v);
-
         } else {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_loading_item, viewGroup, false);
-
             vh = new ProgressViewHolder(v);
         }
         return vh;
-
     }
 
     @Override
-    public void onBindViewHolder( RecyclerView.ViewHolder searchViewHolder, int position) {
-        if (searchViewHolder instanceof SearchListViewHolder) {
-        ((SearchListViewHolder)  searchViewHolder).title.setText(searchItemList.get(position).getTitle());
-        ((SearchListViewHolder)  searchViewHolder).linkImageText.setText(searchItemList.get(position).getImageLink());
-        ((SearchListViewHolder)  searchViewHolder).linkImageText.setLinkTextColor(Color.BLUE);
-        ((SearchListViewHolder)  searchViewHolder).loadPhoto(searchItemList.get(position).getImageLink());
+    public void onBindViewHolder( RecyclerView.ViewHolder searchViewHolder1, int position) {
+        if (searchViewHolder1 instanceof SearchListViewHolder) {
+            SearchListViewHolder  searchViewHolder=(SearchListViewHolder)  searchViewHolder1;
+            searchViewHolder.title.setText(searchItemList.get(position).getTitle());
+            searchViewHolder.linkImageText.setText(searchItemList.get(position).getImageLink());
+            searchViewHolder.linkImageText.setLinkTextColor(Color.BLUE);
+            searchViewHolder.loadPhoto(searchItemList.get(position).getImageLink());
 
-        ((SearchListViewHolder)  searchViewHolder).checkBoxULike.setChecked(searchItemList.get(position).getLiked());
-        ((SearchListViewHolder)  searchViewHolder).setOnCheckBoxListener(searchItemList.get(position), mItemListener);
-         ((SearchListViewHolder)searchViewHolder).setOnClickListener(searchItemList.get(position).getContextLink());
-
+            searchViewHolder.checkBoxULike.setChecked(searchItemList.get(position).getLiked());
+            searchViewHolder.setOnCheckBoxListener(searchItemList.get(position), mItemListener);
+            searchViewHolder.setOnClickListener(searchItemList.get(position).getContextLink());
         } else {
-            ((ProgressViewHolder) searchViewHolder).progressBar.setIndeterminate(true);
+            ((ProgressViewHolder) searchViewHolder1).progressBar.setIndeterminate(true);
         }
-
     }
-
 
     public static class ProgressViewHolder extends RecyclerView.ViewHolder {
         public ProgressBar progressBar;
@@ -212,10 +178,8 @@ public class SearchResultAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-
         if ( searchItemList.size()>position+1) {
                 return VIEW_IMG;
-
         } else {
             return VIEW_PROG;
         }

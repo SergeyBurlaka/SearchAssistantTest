@@ -6,7 +6,6 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.NotNull;
 
-import java.util.Date;
 
 /**
  * Created by Operator on 28.02.2017.
@@ -16,19 +15,18 @@ import java.util.Date;
         @Index(value = "title, date DESC", unique = true)
 })
 public class SearchItem {
+
     @Id
     private long id;
 
     @NotNull
     private String title = "";
+
     private String imageLink = "";
     private String contextLink ="";
-
     private String cashRootImage = "";
-
     private boolean isLiked;
     private java.util.Date date;
-
 
     public SearchItem(@NotNull SearchItem searchItem) {
         this.id = searchItem.getId();
@@ -39,6 +37,7 @@ public class SearchItem {
         this.contextLink = searchItem.contextLink;
         this.cashRootImage = searchItem.cashRootImage;
     }
+
     @Generated(hash = 654981595)
     public SearchItem(long id, @NotNull String title, String imageLink, String contextLink, String cashRootImage,
             boolean isLiked, java.util.Date date) {
@@ -50,9 +49,11 @@ public class SearchItem {
         this.isLiked = isLiked;
         this.date = date;
     }
+
     @Generated(hash = 1717446595)
     public SearchItem() {
     }
+
     public String getImageLink() {
         return imageLink;
     }
@@ -81,7 +82,6 @@ public class SearchItem {
     public long getId() {
         return this.id;
     }
-
 
     public boolean getIsLiked() {
         return this.isLiked;
@@ -127,7 +127,6 @@ public class SearchItem {
         hash = 53 * hash + (this.title != null ? this.title.hashCode() : 0);
         return hash;
     }
-
 
     public String getContextLink() {
         return contextLink;

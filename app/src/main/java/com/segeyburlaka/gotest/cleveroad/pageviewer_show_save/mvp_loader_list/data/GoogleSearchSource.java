@@ -1,7 +1,6 @@
 package com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.api.services.customsearch.Customsearch;
 import com.google.api.services.customsearch.model.Result;
@@ -28,7 +27,6 @@ import static com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_
  */
 
 public class GoogleSearchSource implements GoogleSearchContract {
-        //todo +1:20-------------------------------------> add search methods
 
     @Inject
     Context context;
@@ -38,13 +36,8 @@ public class GoogleSearchSource implements GoogleSearchContract {
 
     private final static String SEARCH = "Search";
     private final static String IMAGE = "image";
-    private String MEDIUM = "medium";
-
     private Customsearch.Cse.List list;
-    private String TAG = "goCR";
-
-    private long firstItemID = 1;
-    private String NOT_EXIST =" ";
+    private String NOT_EXIST ="";
 
     public GoogleSearchSource(){
             SearchApp.getComponent().inject(this);
@@ -52,24 +45,16 @@ public class GoogleSearchSource implements GoogleSearchContract {
 
     @Override
     public List<SearchItem> getGoogleSearch(@NonNull String query, final long firstItemID){
-
-
-
         googleCustomSearch.setApplicationName(SEARCH);
 
         try {
-
-            Log.d(TAG,"start from  "+firstItemID);
-
             list = googleCustomSearch.build().cse().list(query);
             list.setKey( context.getResources().getString(R.string.google_api_key));
             list.setCx(context.getResources().getString(R.string.search_engine_id));
             list.setSearchType(IMAGE);
             list.setImgSize("xxlarge");
-           // list.setStart(firstItemID);
 
             return onGoogleResult(list.execute());
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -80,11 +65,8 @@ public class GoogleSearchSource implements GoogleSearchContract {
         Random r = new Random();
         List<SearchItem> objects = new ArrayList<>();
         if (results.getItems() == null) return objects;
-
             for (Result res : results.getItems()) {
                 long number = lowerLimit+((long)(r.nextDouble()*(upperLimit-lowerLimit)));
-
-
 
                 if (res != null)
                     objects.add(new SearchItem(
@@ -96,12 +78,6 @@ public class GoogleSearchSource implements GoogleSearchContract {
                             false,
                             new Date()
                     ));
-               // Log.d(TAG,"image "+res.getImage().getContextLink());
-
-               // Log.d(TAG,"image "+res.getImage().toString());
-
-                //Log.d(TAG,"image "+res.getImage().g);
-
             }
         return objects;
     }

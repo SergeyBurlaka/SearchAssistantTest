@@ -5,8 +5,5 @@ package com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.d
  */
 
 public interface ImageCashListener {
-
-
     void onCashedImage(String root);
-
 }

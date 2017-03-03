@@ -5,6 +5,7 @@ package com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.d
  */
 
 public class OnSearchEvent {
+
     private String query;
 
     public OnSearchEvent(String query) {

@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.R;
 import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.SearchItem;
@@ -27,68 +26,44 @@ public class FavoriteItemAdapter extends SearchResultAdapter {
         super(searchItemList, mItemListener);
     }
 
-
     public static class FavoriteListViewHolder extends SearchListViewHolder{
-
         FavoriteListViewHolder(View itemView) {
             super(itemView);
         }
 
-
          void loadPhoto(SearchItem searchItem) {
              String root ;
-
              if (isOnline()){
                  root = searchItem.getImageLink();
                  loadPicasso ( root);
-
              }else{
-                 Toast.makeText(context, "no internet "+searchItem.getCashRootImage(), Toast.LENGTH_SHORT).show();
                  root = searchItem.getCashRootImage();
                  loadPicasso ( new File(root));
              }
-
-
         }
 
         private void loadPicasso(File file) {
             try {
                 Picasso.with(context)
                         .load(file)
-                        //.resize(115, 100)
-                        //.centerCrop()
                         .placeholder(R.drawable.image_placeholder)
                         .error(R.drawable.image_placeholder)
                         .into(searchImg);
             }catch (IllegalArgumentException ex){
-                //WORKAROUND/Picasso loading exception: Path must not be empty...
-                //ok, so picasso try again!
-                Picasso.with(context)
-                        .load(R.drawable.image_placeholder)
-                        //.resize(115, 100)
-                        // .centerCrop()
-                        .into(searchImg);
+                onLoadImageExeption ();
             }
         }
 
-        private void loadPicasso(String root) {
 
+
+        private void loadPicasso(String root) {
             try {
-                Picasso.with(context)
-                        .load(root)
-                        //.resize(115, 100)
-                        //.centerCrop()
+                Picasso.with(context).load(root)
                         .placeholder(R.drawable.image_placeholder)
                         .error(R.drawable.image_placeholder)
                         .into(searchImg);
             }catch (IllegalArgumentException ex){
-                //WORKAROUND/Picasso loading exception: Path must not be empty...
-                //ok, so picasso try again!
-                Picasso.with(context)
-                        .load(R.drawable.image_placeholder)
-                        //.resize(115, 100)
-                        // .centerCrop()
-                        .into(searchImg);
+                onLoadImageExeption ();
             }
         }
 
@@ -98,30 +73,26 @@ public class FavoriteItemAdapter extends SearchResultAdapter {
             NetworkInfo netInfo = cm.getActiveNetworkInfo();
             return netInfo != null && netInfo.isConnectedOrConnecting();
         }
-
-
     }
 
     @Override
-    public void onBindViewHolder( RecyclerView.ViewHolder searchViewHolder, int position) {
+    public void onBindViewHolder( RecyclerView.ViewHolder searchViewHolder1, int position) {
+        FavoriteListViewHolder searchViewHolder = (FavoriteListViewHolder) searchViewHolder1;
 
-        ((FavoriteListViewHolder)  searchViewHolder).title.setText(searchItemList.get(position).getTitle());
-        ((FavoriteListViewHolder)  searchViewHolder).linkImageText.setText(searchItemList.get(position).getImageLink());
-        ((FavoriteListViewHolder)  searchViewHolder).linkImageText.setLinkTextColor(Color.BLUE);
-        ((FavoriteListViewHolder)  searchViewHolder).loadPhoto(searchItemList.get(position));
-        ((FavoriteListViewHolder)  searchViewHolder).checkBoxULike.setVisibility(View.INVISIBLE);
-        ((FavoriteListViewHolder)  searchViewHolder).setOnClickListener(searchItemList.get(position).getContextLink());
-
+        searchViewHolder.title.setText(searchItemList.get(position).getTitle());
+        searchViewHolder.linkImageText.setText(searchItemList.get(position).getImageLink());
+        searchViewHolder.linkImageText.setLinkTextColor(Color.BLUE);
+        searchViewHolder.loadPhoto(searchItemList.get(position));
+        searchViewHolder.checkBoxULike.setVisibility(View.INVISIBLE);
+        searchViewHolder.setOnClickListener(searchItemList.get(position).getContextLink());
     }
 
     @Override
     public  RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-
         RecyclerView.ViewHolder vh;
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.serarch_result_item, viewGroup, false);
         vh = new FavoriteListViewHolder(v);
         return vh;
-
     }
 
     public void swapOnCash(List<SearchItem> data){
@@ -130,10 +101,8 @@ public class FavoriteItemAdapter extends SearchResultAdapter {
         notifyDataSetChanged();
     }
 
-
     @Override
     public int getItemViewType(int position) {
-
             return VIEW_IMG;
     }
 }

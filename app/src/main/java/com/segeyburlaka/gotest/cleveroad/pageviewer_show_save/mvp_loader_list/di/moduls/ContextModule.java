@@ -1,6 +1,5 @@
 package com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.di.moduls;
 
-import android.app.Application;
 import android.content.Context;
 
 import javax.inject.Singleton;

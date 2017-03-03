@@ -1,16 +1,13 @@
 package com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.viewpages.favorite;
 
-import android.Manifest;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -27,11 +24,9 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import pub.devrel.easypermissions.EasyPermissions;
 
 import static com.arlib.floatingsearchview.util.Util.dpToPx;
 
@@ -53,14 +48,9 @@ public class FavoriteFragment extends MvpAppCompatFragment implements FavoriteVi
     RecyclerView searchResultList;
 
     private FavoriteItemAdapter searchResultAdapter;
-    private LinearLayoutManager linearLayoutManager;
 
     public static final String ARG_PAGE = "ARG_PAGE";
     private int mPage;
-    private String TAG = "goCR";
-    private int i = 0;
-
-
 
     public static FavoriteFragment newInstance(int page) {
         Bundle args = new Bundle();
@@ -85,7 +75,6 @@ public class FavoriteFragment extends MvpAppCompatFragment implements FavoriteVi
         return view;
     }
 
-
     @ProvidePresenter
     FavoritePresenter provideFavoritePresenter() {
         return new FavoritePresenter (getLoaderManager());
@@ -97,33 +86,16 @@ public class FavoriteFragment extends MvpAppCompatFragment implements FavoriteVi
     }
 
     private void onCreateSearchResult() {
-        long lowerLimit = 123456712L;
-        long upperLimit = 234567892L;
-        Random r = new Random();
-
-
         ArrayList<SearchItem> searchItems = new ArrayList<>();
-        /*for (int i = 0; i<2;i++){
-            long number = lowerLimit+((long)(r.nextDouble()*(upperLimit-lowerLimit)));
-            final DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
-            String comment = "Added on " + df.format(new Date());
 
-            searchItems.add(new SearchItem(number ,"number "+i, "", false, new Date()));
-        }*/
         searchResultAdapter = new FavoriteItemAdapter(searchItems,mItemListener );
-
-        //init recycler view list
         searchResultList.setHasFixedSize(true);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);
         searchResultList.setLayoutManager(mLayoutManager);
         searchResultList.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         searchResultList.setItemAnimator(new DefaultItemAnimator());
-      //  linearLayoutManager = new LinearLayoutManager(getActivity());
-
-        //searchResultList.setLayoutManager(linearLayoutManager);
         searchResultList.setAdapter(searchResultAdapter);
-
         queryCashFavoritePresenter.getFavoriteFromCash();
     }
 
@@ -137,12 +109,6 @@ public class FavoriteFragment extends MvpAppCompatFragment implements FavoriteVi
 
         }
     };
-
-    @Override
-    public void showToast(String onResult) {
-        Toast.makeText(getActivity(), onResult, Toast.LENGTH_SHORT).show();
-    }
-
 
     @Override
     public void swapAdapter(SearchItem data) {
@@ -168,11 +134,6 @@ public class FavoriteFragment extends MvpAppCompatFragment implements FavoriteVi
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(AddFavoriteEvent event) {
-        i++;
-        Log.d(TAG, "onMessageEvent"+i);
-       // showToast("OnResult");
-
         favoritePresenter.getNewFavorite(event.getIdSearchItem());
     };
-
 }

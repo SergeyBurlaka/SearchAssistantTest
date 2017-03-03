@@ -10,7 +10,6 @@ import java.util.List;
  */
 
 public interface SearchView  extends MvpView {
-    void showToast();
 
     void swapGoogleResult(List<SearchItem> searchResults);
 }
