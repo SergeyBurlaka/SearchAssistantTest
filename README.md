@@ -1,4 +1,4 @@
-# SearchAssistantTest
+# SearchAssistant
 Hi! My name is Burlaka Segey. I like android! And this is my test.
   
 ###  References
