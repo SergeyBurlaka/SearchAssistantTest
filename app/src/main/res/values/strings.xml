@@ -4,4 +4,8 @@
     <string name="_11_songs">11 songs</string>
     <string name="my_image_title_text">My image title text</string>
     <string name="description_image">search_result_image</string>
+
+    <string name="search_engine_id">012011710280601989674:vccs10lpo1c</string>
+    <string name="google_api_key">AIzaSyC_2ltRtnbd46u84POvDtR4dtf_bhi6xx0</string>
+
 </resources>

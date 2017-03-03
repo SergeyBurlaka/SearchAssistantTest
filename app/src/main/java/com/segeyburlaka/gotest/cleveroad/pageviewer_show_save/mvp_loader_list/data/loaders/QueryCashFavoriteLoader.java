@@ -2,51 +2,59 @@ package com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.d
 
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
-import android.util.Log;
 
 import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.DataRepository;
-
 import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.SearchItem;
 import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.di.SearchApp;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
 /**
- * Created by Operator on 01.03.2017.
+ * Created by Operator on 03.03.2017.
  */
 
-public class SaveFavoriteLoader extends AsyncTaskLoader<Long>
+public class QueryCashFavoriteLoader extends AsyncTaskLoader<List<SearchItem>>
         implements DataRepository.TasksRepositoryObserver {
 
     @Inject
     DataRepository dataRepository;
 
-    private final SearchItem searchItem;
-    private String TAG = "goCR";
 
-    public SaveFavoriteLoader(SearchItem searchItem, Context context) {
+
+    public QueryCashFavoriteLoader ( Context context) {
         super(context);
         SearchApp.getComponent().inject(this);
-        this.searchItem = searchItem;
     }
 
     @Override
-    public Long loadInBackground() {
+    public List<SearchItem> loadInBackground() {
+        return dataRepository.getFavoriteCash();
+    }
 
-        Log.d(TAG, "loadInBackground()");
+    @Override
+    public void deliverResult(List<SearchItem> data) {
+        if (isReset()) {
+            return;
+        }
 
-        return  dataRepository.saveFavorite(searchItem);
+        if (isStarted()) {
+            super.deliverResult(data);
+        }
     }
 
     @Override
     protected void onStartLoading() {
-
+        // Begin monitoring the underlying data source.
+        dataRepository.addContentObserver(this);
         forceLoad();
     }
 
     @Override
     protected void onReset() {
         onStopLoading();
+        dataRepository.removeContentObserver(this);
     }
 
     @Override

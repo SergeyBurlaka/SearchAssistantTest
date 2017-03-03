@@ -2,10 +2,9 @@ package com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.d
 
 import android.support.annotation.NonNull;
 
-import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.SearchItemRepository;
-import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.SearchItemSource;
-import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.local.SearchItemLocalContract;
-import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.remote.SearchRemoteContract;
+import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.FavoriteLocalContract;
+import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.DataRepository;
+import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.GoogleSearchContract;
 
 import javax.inject.Singleton;
 
@@ -19,8 +18,8 @@ import dagger.Provides;
 public class DataRepositoryModule {
     @Provides
     @Singleton
-    public SearchItemRepository provideGithubService(@NonNull SearchRemoteContract remoteSearchItemSource,
-                                                     @NonNull SearchItemLocalContract localSearchItemSource) {
-        return new SearchItemRepository(remoteSearchItemSource, localSearchItemSource);
+    public DataRepository provideGithubService(@NonNull GoogleSearchContract remoteSearchItemSource,
+                                               @NonNull FavoriteLocalContract localSearchItemSource) {
+        return new DataRepository(remoteSearchItemSource, localSearchItemSource);
     }
 }

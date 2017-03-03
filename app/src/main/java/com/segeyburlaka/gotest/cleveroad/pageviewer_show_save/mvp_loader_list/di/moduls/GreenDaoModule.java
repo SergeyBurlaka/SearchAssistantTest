@@ -2,9 +2,10 @@ package com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.d
 
 import android.content.Context;
 
-import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.pojo.DaoMaster;
-import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.pojo.DaoSession;
-import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.pojo.SearchItemDao;
+
+import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.DaoMaster;
+import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.DaoSession;
+import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.SearchItemDao;
 
 import org.greenrobot.greendao.database.Database;
 
@@ -23,8 +24,6 @@ import dagger.Provides;
 
 @Module
 public class GreenDaoModule {
-    //todo +1:30/2:20-------------------inject green dao repo
-    public static final boolean ENCRYPTED = true;
 
     private Context mContext;
 

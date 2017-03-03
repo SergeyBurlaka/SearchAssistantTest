@@ -12,6 +12,7 @@
         card_view:cardCornerRadius="@dimen/card_album_radius">
 
         <RelativeLayout
+            android:id="@+id/item_relative_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -22,7 +23,6 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:scaleType="fitCenter"
-                android:src="@drawable/sakura_harun"
                 android:contentDescription="@string/description_image" />
 
             <TextView
@@ -30,17 +30,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/my_image_title_text"
+
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:scrollHorizontally="true"
+
                 android:layout_below="@id/thumbnail"
                 android:paddingLeft="@dimen/album_title_padding"
-                android:paddingRight="@dimen/album_title_padding"
+
                 android:paddingTop="@dimen/album_title_padding"
                 android:textColor="@color/album_title"
-                android:textSize="@dimen/album_title" />
+                android:textSize="@dimen/album_title"
+                android:layout_toLeftOf="@+id/checkbox_item"
+                android:layout_toStartOf="@+id/checkbox_item" />
 
             <TextView
-                android:id="@+id/count"
+                android:id="@+id/link_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:scrollHorizontally="true"
+
                 android:text="@string/_11_songs"
                 android:layout_below="@id/title"
                 android:paddingBottom="@dimen/songs_count_padding_bottom"

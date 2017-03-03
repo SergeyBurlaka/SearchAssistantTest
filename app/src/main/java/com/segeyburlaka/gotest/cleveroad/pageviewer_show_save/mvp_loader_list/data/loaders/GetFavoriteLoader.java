@@ -3,8 +3,8 @@ package com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.d
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 
-import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.SearchItemRepository;
-import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.pojo.SearchItem;
+import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.DataRepository;
+import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.SearchItem;
 import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.di.SearchApp;
 
 import javax.inject.Inject;
@@ -13,10 +13,10 @@ import javax.inject.Inject;
  * Created by Operator on 28.02.2017.
  */
 public class GetFavoriteLoader extends  AsyncTaskLoader<SearchItem>
-    implements SearchItemRepository.TasksRepositoryObserver {
+    implements DataRepository.TasksRepositoryObserver {
 
     @Inject
-    SearchItemRepository dataRepository;
+    DataRepository dataRepository;
 
     private final Long idSearchItem;
 

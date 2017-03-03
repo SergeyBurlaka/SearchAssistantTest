@@ -1,10 +1,9 @@
 package com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.di.moduls;
 
-import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.SearchItemSource;
-import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.local.SearchItemLocalContract;
-import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.local.SearchItemLocalSource;
-import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.remote.SearchItemRemoteSource;
-import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.remote.SearchRemoteContract;
+import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.FavoriteLocalContract;
+import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.FavoriteLocalSource;
+import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.GoogleSearchSource;
+import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.GoogleSearchContract;
 
 import javax.inject.Singleton;
 
@@ -18,13 +17,13 @@ import dagger.Provides;
 public class DataSourceModule {
     @Provides
     @Singleton
-    public SearchRemoteContract provideSearchRemoteDataSource (){
-        return new SearchItemRemoteSource();
+    public GoogleSearchContract provideSearchRemoteDataSource (){
+        return new GoogleSearchSource();
     }
 
     @Provides
     @Singleton
-    public SearchItemLocalContract provideSearchItemDataLocalSource (){
-        return new SearchItemLocalSource();
+    public FavoriteLocalContract provideSearchItemDataLocalSource (){
+        return new FavoriteLocalSource();
     }
 }

@@ -5,4 +5,8 @@
     <color name="colorAccent">#FF4081</color>
     <color name="viewBg">#f1f5f8</color>
     <color name="album_title">#4c4c4c</color>
+
+    <!--grey transparent-->
+    <color name="md_grey_500_transparent_100">#639e9e9e</color>
+    <color name="md_grey_800_transparent_100">#64424242</color>
 </resources>

@@ -2,10 +2,10 @@ package com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.d
 
 import android.app.Application;
 
-import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.pojo.DaoMaster;
-import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.data.pojo.DaoSession;
+
 import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.di.moduls.ContextModule;
 import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.di.moduls.DataRepositoryModule;
+import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.di.moduls.GoogleCustomsearchModule;
 import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.di.moduls.GreenDaoModule;
 
 import org.greenrobot.greendao.database.Database;
@@ -36,6 +36,7 @@ public class SearchApp extends Application {
                 .contextModule(new ContextModule(this))
                 .greenDaoModule(new GreenDaoModule(this))
                 .dataRepositoryModule(new DataRepositoryModule())
+                .googleCustomsearchModule(new GoogleCustomsearchModule())
                 .build();
     }
 }

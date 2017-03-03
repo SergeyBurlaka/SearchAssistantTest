@@ -4,13 +4,12 @@ package com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.g
  * Created by Operator on 28.02.2017.
  */
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.favorite.FavoriteFragment;
-import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.search.SearchFragment;
+import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.viewpages.favorite.FavoriteFragment;
+import com.segeyburlaka.gotest.cleveroad.pageviewer_show_save.mvp_loader_list.viewpages.search.SearchFragment;
 
 /**
  * Created by Belal on 2/3/2016.
