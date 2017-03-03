@@ -1,5 +1,5 @@
 # SearchAssistant
-Hi! My name is Burlaka Sergey. I like android! And this is my test.
+Hi! My name is Burlaka Sergey. I like android, and this is my test.
   
 ###  References
 
