@@ -3,9 +3,9 @@ Hi! My name is Burlaka Sergey. I like android, and this is my test.
   
 ###  References
 
-1. download [APK from Github] (https://github.com/SergeyBurlaka/SearchAssistantTest/blob/master/APK/searchapp_burlaka.apk) 
+1. download [APK from Github](https://github.com/SergeyBurlaka/SearchAssistantTest/blob/master/APK/searchapp_burlaka.apk) 
 
-2. test [my app on-line ] (https://appetize.io/app/ykbwan996g6wn3xhkt9eq8fzwg?device=nexus5&scale=75&orientation=portrait&osVersion=5.1) 
+2. test [my app on-line ](https://appetize.io/app/ykbwan996g6wn3xhkt9eq8fzwg?device=nexus5&scale=75&orientation=portrait&osVersion=5.1) 
 
 ### Screenshots
 
